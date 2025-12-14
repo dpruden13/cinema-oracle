@@ -1,3 +1,6 @@
+import logging
+logger = logging.getLogger(__name__)
+
 from transformers import pipeline
 from ollama import chat, ChatResponse
 from openai import OpenAI
@@ -12,6 +15,7 @@ MODEL_TYPES = [
 
 def call_deepseek(prompt: str) -> str:
     # https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B
+    logger.info('Calling DeepSeek...')
     pipe = pipeline("text-generation", model="deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B")
     messages = [{"role": "user", "content": prompt}]
     response = pipe(messages)
@@ -20,12 +24,14 @@ def call_deepseek(prompt: str) -> str:
 
 def call_gemma(prompt: str) -> str:
     # https://github.com/ollama/ollama-python
+    logger.info('Calling Gemma...')
     response: ChatResponse = chat(model='gemma3:12b', messages=[{'role': 'user', 'content': prompt}])
     return response.message.content
 
 
 def call_openai(prompt: str) -> str:
     # https://platform.openai.com/docs/quickstart?api-mode=responses&language=python
+    logger.info('Calling OpenAI...')
     client = OpenAI()
     response = client.responses.create(model="gpt-4.1-nano", input=prompt)
     return response.output_text
@@ -41,7 +47,8 @@ def call_llm(prompt: str, model_type: str = best, retry: bool = True) -> str:
             return call_openai(prompt)
         else:
             raise Exception(f'Unrecognized model_type "{model_type}", should be one of {MODEL_TYPES}')
-    except Exception:
+    except Exception as e:
+        logger.error(e)
         if retry:
             model_type_index = MODEL_TYPES.index(model_type)
             if model_type_index == 0:
