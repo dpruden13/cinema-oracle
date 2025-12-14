@@ -1,5 +1,6 @@
 from transformers import pipeline
 from ollama import chat, ChatResponse
+from openai import OpenAI
 
 
 def call_deepseek(prompt: str) -> str:
@@ -15,5 +16,9 @@ def call_gemma(prompt: str) -> str:
     response: ChatResponse = chat(model='gemma3:12b', messages=[{'role': 'user', 'content': prompt}])
     return response.message.content
 
-answer = call_gemma('What is the biggest city in the world?')
-print(answer)
+
+def call_openai(prompt: str) -> str:
+    # https://platform.openai.com/docs/quickstart?api-mode=responses&language=python
+    client = OpenAI()
+    response = client.responses.create(model="gpt-4.1-nano", input=prompt)
+    return response.output_text
