@@ -22,3 +22,14 @@ def call_openai(prompt: str) -> str:
     client = OpenAI()
     response = client.responses.create(model="gpt-4.1-nano", input=prompt)
     return response.output_text
+
+
+def call_llm(prompt: str, model_type: str = 'basic') -> str:
+    if model_type == 'basic':
+        return call_deepseek(prompt)
+    elif model_type == 'medium':
+        return call_gemma(prompt)
+    elif model_type == 'best':
+        return call_openai(prompt)
+    else:
+        raise Exception(f'Unrecognized model_type "{model_type}", should be "basic", "medium", or "best".')
