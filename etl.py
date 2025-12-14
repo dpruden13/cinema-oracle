@@ -72,7 +72,8 @@ message = f"Number of movies ({num_movies}) and genres ({num_genres}) don't both
 assert num_movies == num_genres == TOTAL_MOVIES, message
 
 # SQLite Database with 3 tables: movies, genres, and ratings
-engine = create_engine("sqlite:///database.db")
+SQLITE_FILENAME = "sqlite:///database.db"
+engine = create_engine(SQLITE_FILENAME)
 SQLModel.metadata.create_all(engine)
 
 movies.to_sql(name='movies', con=engine)
