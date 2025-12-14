@@ -4,7 +4,7 @@ This project uses the [MovieLens dataset (small version: ~100k ratings, ~9k movi
 
 ### Files:
 - `requirements.txt` lists the Python libraries used. Note that this project uses Python 3.13.
-- `database.py` shows the script that was used to wrangle the data from 5 CSV files (3 from MovieLens, 2 from TMDB) into a SQLite database. Now that the SQLite database has been created, this script does not need to be run again. 
+- `etl.py` shows the script that was used to extract the data from 5 CSV files (3 from MovieLens, 2 from TMDB), transform that data into the desired tables and columns, and load them into a SQLite database. Now that the SQLite database has been created, this script does not need to be run again. 
 - `sqlite:///database.db` is the SQLite database, which has 3 tables: movies, genres, and ratings
 - `llm.py` provides the essential building blocks for calling any of 3 LLMs (see table below)
 - `main.py` contains the logic for the FastAPI API. 
