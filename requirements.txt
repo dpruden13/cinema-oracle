@@ -6,3 +6,4 @@ accelerate
 torch
 ollama
 openai
+pytest
