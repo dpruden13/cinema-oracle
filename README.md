@@ -9,8 +9,9 @@ This project uses the [MovieLens dataset (small version: ~100k ratings, ~9k movi
 - `llm.py` provides the essential building blocks for calling any of 3 LLMs (see table below)
 - `main.py` contains the logic for the FastAPI API. 
 
-### How to Use:
+### Usage:
 
+### Testing:
 
 ### LLMs:
 
@@ -21,3 +22,9 @@ This project uses the [MovieLens dataset (small version: ~100k ratings, ~9k movi
 | [gpt-4.1-nano](https://platform.openai.com/docs/models/gpt-4.1-nano)                                                                                  | OpenAI                   | `model_type='best'`   | Fast (response time in seconds) with high quality responses | Paid (see [here](https://platform.openai.com/docs/pricing) for pricing details) and requires an OpenAI API key with the environment variable `OPENAI_API_KEY`                                |
 
 
+### Considerations:
+- **Data Coverage:** IMDB or TMDB API
+- **Prompt Engineering:** system_prompt vs. user_prompt
+- **Context Engineering:** RAG
+- **Hosting an Agent:** MCP Server
+- **Security:** SQL Injection, Prompt Injection
