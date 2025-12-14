@@ -3,6 +3,8 @@ from json import loads
 from llm import call_llm, medium
 from database import query_database
 
+import pandas as pd
+
 
 def detect_intent(user_prompt: str) -> str:
     # Can result in JSONDecodeError
@@ -24,26 +26,23 @@ def detect_intent(user_prompt: str) -> str:
         ).strip().removeprefix('```json').removesuffix('```').strip())  # remove unnecessary text
 
 
-def answer_query(user_prompt: str, naive: bool = True) -> str:
-    if naive:
-        intent = detect_intent(user_prompt)
-        topic, data = list(intent.items())[0]
-        if topic == 'genres':
-            statement = f"SELECT * FROM genres JOIN movies ON genres.movieId=movies.movieId WHERE genres LIKE '%{data}%'"
-        elif topic == 'ratings':
-            statement = f"SELECT * FROM ratings JOIN movies ON ratings.movieId=movies.movieId WHERE rating = '{data}' LIMIT 1000"
-        elif topic == 'title':
-            statement = f"SELECT * FROM movies WHERE title LIKE '%{data}%'"
-        elif topic == 'year':
-            statement = f"SELECT * FROM movies WHERE year = '{data}'"
-        elif topic == 'director':
-            statement = f"SELECT * FROM movies WHERE director LIKE '%{data}%'"
-        elif topic == 'plot':
-            statement = f"SELECT * FROM movies WHERE overview LIKE '%{data}%'"
-        else:
-            raise Exception(f'Could not ascertain user intent: {topic} -> {data}')
-        movies = query_database(statement)
-        prompt = f'Given these movies: {movies} answer this question: {user_prompt}'
-        return call_llm(prompt=prompt)
+def answer_query(user_prompt: str) -> str:
+    intent = detect_intent(user_prompt)
+    topic, data = list(intent.items())[0]
+    if topic == 'genres':
+        statement = f"SELECT * FROM genres JOIN movies ON genres.movieId=movies.movieId WHERE genres LIKE '%{data}%'"
+    elif topic == 'ratings':
+        statement = f"SELECT * FROM ratings JOIN movies ON ratings.movieId=movies.movieId WHERE rating = '{data}' LIMIT 1000"
+    elif topic == 'title':
+        statement = f"SELECT * FROM movies WHERE title LIKE '%{data}%'"
+    elif topic == 'year':
+        statement = f"SELECT * FROM movies WHERE year = '{data}'"
+    elif topic == 'director':
+        statement = f"SELECT * FROM movies WHERE director LIKE '%{data}%'"
+    elif topic == 'plot':
+        statement = f"SELECT * FROM movies WHERE overview LIKE '%{data}%'"
     else:
-        ...
+        raise Exception(f'Could not ascertain user intent: {topic} -> {data}')
+    movies = query_database(statement)
+    prompt = f'Given these movies: {movies} answer this question: {user_prompt}'
+    return call_llm(prompt=prompt)
