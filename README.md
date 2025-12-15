@@ -17,6 +17,10 @@ This project uses the [MovieLens dataset (small version: ~100k ratings, ~9k movi
 4. `fastapi dev main.py`
 5. Use Postman or another client to send requests (see screenshots below) to endpoints like so: [http://127.0.0.1:8000?user_prompt=What are some adventure movies in the dataset?](http://127.0.0.1:8000?user_prompt=What are some adventure movies in the dataset?)
 
+![SampleGenreQueryWithBestModel.png](screenshots/SampleGenreQueryWithBestModel.png)
+![SampleDirectorQueryWithMediumModel.png](screenshots/SampleDirectorQueryWithMediumModel.png)
+![SampleYearQueryWithBasicModel.png](screenshots/SampleYearQueryWithBasicModel.png)
+
 ### Testing:
 
 ### LLMs:
