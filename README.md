@@ -25,6 +25,10 @@ This project uses the [MovieLens dataset (small version: ~100k ratings, ~9k movi
 
 `python -m pytest`
 
+![AllTestsPassing.png](screenshots/AllTestsPassing.png)
+
+Note that running all the tests can take several minutes as some of them are calling LLMs. Also note that, due to the nondeterministic nature of LLMs, some of the tests might fail due to unpredictable outputs.
+
 ### LLMs:
 
 | Model                                                                                             | Via                      | Usage                 | Pros                                                        | Cons                                                                                                                                                                                         |
