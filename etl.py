@@ -21,7 +21,8 @@ ml_links = _load_dataframe(MOVIE_LENS_SUBDIRECTORY, 'links.csv').dropna().astype
 merged_ml = ml_movies.merge(ml_links, left_on='movieId', right_on='movieId', how='left')
 
 # Both the "genres" and "ratings" tables are easily derived from the MovieLens dataset
-genres = ml_movies[['movieId', 'genres']]
+ml_movies['genre'] = ml_movies['genres'].rename('genre')
+genres = ml_movies[['movieId', 'genre']]
 ratings = ml_ratings[['movieId', 'rating']]
 # The full "movies" table is mainly based on the MovieLens dataset but is supplemented by the TMDB dataset as available
 
@@ -47,7 +48,8 @@ year = merged_ml_and_tmdb['title'].apply(lambda text: text.strip()[-5:-1].strip(
 # - overview/plot: TMDB
 overview = merged_ml_and_tmdb['overview']
 # - cast: TMDB
-cast = merged_ml_and_tmdb['cast']
+merged_ml_and_tmdb['cast'] = merged_ml_and_tmdb['cast'].fillna('').apply(lambda c: loads(c) if c else [])
+cast = merged_ml_and_tmdb['cast'].apply(lambda cm: ', '.join([c['name'] for c in cm]))
 # - director: TMDB
 def _get_director(crew: str) -> str:
     if not crew:
