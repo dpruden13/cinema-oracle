@@ -1,6 +1,6 @@
 # Cinema Oracle
 
-This project uses the [MovieLens dataset (small version: ~100k ratings, ~9k movies)](https://grouplens.org/datasets/movielens/) and the [TMDB 5000 Movie Dataset](https://www.kaggle.com/datasets/tmdb/tmdb-movie-metadata).  
+This API allows a user to use natural language to query the [MovieLens dataset (small version: ~100k ratings, ~9k movies)](https://grouplens.org/datasets/movielens/) and the [TMDB 5000 Movie Dataset](https://www.kaggle.com/datasets/tmdb/tmdb-movie-metadata) via several available LLMs.  
 
 ### Quickstart:
 
@@ -8,7 +8,7 @@ This project uses the [MovieLens dataset (small version: ~100k ratings, ~9k movi
 2. `pip install -r requirements.txt`
 3. Add your OpenAI API key to an environment variable called `OPENAI_API_KEY` to your `.env` (recommended) and/or download Ollama [here](https://ollama.com/download) and then download the model by selecting gemma3:12b in the Ollama GUI by asking a simple prompt such as "Who are you?"
 4. `fastapi dev main.py`
-5. Use Postman or another client to send requests (see screenshots below) to endpoints like so: [http://127.0.0.1:8000?user_prompt=What are some adventure movies in the dataset?](http://127.0.0.1:8000?user_prompt=What are some adventure movies in the dataset?)
+5. Use Postman or another client to send GET requests (see screenshots below) to http://127.0.0.1:8000 with the required query parameter `user_prompt` 
 
 ![SampleGenreQueryWithBestModel.png](screenshots/SampleGenreQueryWithBestModel.png)
 ![SampleDirectorQueryWithMediumModel.png](screenshots/SampleDirectorQueryWithMediumModel.png)
@@ -42,8 +42,9 @@ This project uses the [MovieLens dataset (small version: ~100k ratings, ~9k movi
 Note that running all the tests can take several minutes as some of them are calling LLMs. Also note that, due to the nondeterministic nature of LLMs, some of the tests might fail due to unpredictable outputs.
 
 ### Considerations:
-- **Data Coverage:** IMDB or TMDB API
-- **Prompt Engineering:** system_prompt vs. user_prompt
-- **Context Engineering:** RAG
-- **Hosting an Agent:** MCP Server
-- **Security:** SQL Injection, Prompt Injection
+- **UI/UX:** Depending on the user prompt and how much data it fetches from the SQLite database, the response time can take up to about a minute even with the `best` model. Adding a Streaming response could improve UX.
+- **Data Coverage:** Because the MovieLens dataset has ~9k movies and the TMDB dataset has ~5k movies, the former is used as the main list of movies with extra fields (such as overview/plot, actors, and director) supplemented by the latter as available. The [IMDb API](https://developer.imdb.com/documentation/api-documentation/getting-access/) or [TMDB API](https://developer.themoviedb.org/docs/getting-started) could be used to fill in the missing gaps. 
+- **Prompt Engineering:** LLM responses could likely be improved by splitting up prompts between the system_prompt and user_prompt instead of only using the latter.
+- **Context Engineering:** To speed up response times and allow more ambitious user prompts accessing more data, Retrieval-Augmented Generation (RAG) could be implemented with a vector database such as Pinecone could be used. 
+- **Hosting an Agent:** To make this API available to AI agents, a Model Context Protocol (MCP) server could be set up and hosted.
+- **Security:** The data in the MovieLens and TMDB datasets is not sensitive in nature. That said, to become production ready, more coding would need to be done to guard against SQL Injection and Prompt Injection.
