@@ -1,6 +1,8 @@
 # Cinema Oracle
 
-This API allows a user to query the [MovieLens dataset (small version: ~100k ratings, ~9k movies)](https://grouplens.org/datasets/movielens/) and the [TMDB 5000 Movie Dataset](https://www.kaggle.com/datasets/tmdb/tmdb-movie-metadata) using natural language via several available LLMs.  
+This FastAPI API allows a user to query the [MovieLens dataset (small version: ~100k ratings, ~9k movies)](https://grouplens.org/datasets/movielens/) and the [TMDB 5000 Movie Dataset](https://www.kaggle.com/datasets/tmdb/tmdb-movie-metadata) using natural language via several available LLMs. The API detects the intent in the user prompt, queries a SQLite database to retrieve the relevant movie data, and uses the selected LLM to generate a natural-language response. 
+
+Note that I did not use an LLM to generate any of this code, nor did I consult StackOverflow when creating this proof of concept.
 
 ### Quickstart:
 
