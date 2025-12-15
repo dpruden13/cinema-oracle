@@ -7,6 +7,7 @@ Note that I did not use an LLM to generate any of this code, nor did I consult S
 ### Quickstart:
 
 1. `git clone git@github.com:dpruden13/cinema-oracle.git`
+2. `cd cinema-oracle`
 2. `pip install -r requirements.txt`
 3. Add your OpenAI API key to an environment variable called `OPENAI_API_KEY` to your `.env` (recommended) and/or download Ollama [here](https://ollama.com/download) and then download the model by selecting `gemma3:12b` in the Ollama GUI by asking a simple prompt such as "Who are you?"
 4. `fastapi dev main.py`
