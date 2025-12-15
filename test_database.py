@@ -6,6 +6,11 @@ def test_number_of_movies_returned():
     assert len(results) == 9_742
 
 
+def test_number_of_genres_returned():
+    results = query_database("SELECT * FROM genres")
+    assert len(results) == 9_742
+
+
 def test_number_of_ratings_returned():
     results = query_database("SELECT * FROM ratings")
     assert len(results) == 100_836
