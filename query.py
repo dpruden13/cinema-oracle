@@ -14,9 +14,9 @@ def detect_intent(user_prompt: str) -> str:
             prompt=(
                 f'Which topic does the following user prompt relate to? {user_prompt} '
                 'Respond ONLY with a JSON object with a KEY and VALUE. '
-                'The KEY should be "genres" or "ratings" or "title" or "year" or "cast" or "director" or "plot" or "other". '
+                'The KEY should be "genre" or "ratings" or "title" or "year" or "cast" or "director" or "plot" or "other". '
                 'The VALUE should be the specific data for that KEY. '
-                'Example: {"genres": "adventure"} '
+                'Example: {"genre": "adventure"} '
                 'Another example: {"year": "1997"} '
                 'Another example: {"cast": "Kate Winslet"} '
                 'Another example: {"director": "James Cameron"} '
@@ -29,14 +29,16 @@ def answer_query(user_prompt: str, model_type: str = best, retry: bool = True) -
     intent = detect_intent(user_prompt)
     logger.info(f'Intent {intent} detected from user prompt: {user_prompt}')
     topic, data = list(intent.items())[0]
-    if topic == 'genres':
-        statement = f"SELECT * FROM genres JOIN movies ON genres.movieId=movies.movieId WHERE genres LIKE '%{data}%'"
+    if topic == 'genre':
+        statement = f"SELECT * FROM genres JOIN movies ON genres.movieId=movies.movieId WHERE genre LIKE '%{data}%'"
     elif topic == 'ratings':
         statement = f"SELECT * FROM ratings JOIN movies ON ratings.movieId=movies.movieId WHERE rating = '{data}' LIMIT 1000"
     elif topic == 'title':
         statement = f"SELECT * FROM movies WHERE title LIKE '%{data}%'"
     elif topic == 'year':
         statement = f"SELECT * FROM movies WHERE year = '{data}'"
+    elif topic == 'cast':
+        statement = f"SELECT * FROM movies WHERE actors LIKE '%{data}%'"
     elif topic == 'director':
         statement = f"SELECT * FROM movies WHERE director LIKE '%{data}%'"
     elif topic == 'plot':
