@@ -50,6 +50,7 @@ overview = merged_ml_and_tmdb['overview']
 # - cast: TMDB
 merged_ml_and_tmdb['cast'] = merged_ml_and_tmdb['cast'].fillna('').apply(lambda c: loads(c) if c else [])
 cast = merged_ml_and_tmdb['cast'].apply(lambda cm: ', '.join([c['name'] for c in cm]))
+cast = cast.rename('actors')  # 'cast' was causing errors in downstream SQL queries
 # - director: TMDB
 def _get_director(crew: str) -> str:
     if not crew:
