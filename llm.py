@@ -1,5 +1,6 @@
 import logging
 logger = logging.getLogger(__name__)
+logging.basicConfig(filename='cinema_oracle.log', level=logging.INFO)
 
 from transformers import pipeline
 from ollama import chat, ChatResponse

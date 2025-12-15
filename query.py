@@ -1,4 +1,7 @@
 from json import loads
+import logging
+logger = logging.getLogger(__name__)
+logging.basicConfig(filename='cinema_oracle.log', level=logging.INFO)
 
 from llm import call_llm, best
 from database import query_database
@@ -24,6 +27,7 @@ def detect_intent(user_prompt: str) -> str:
 
 def answer_query(user_prompt: str, model_type: str = best, retry: bool = True) -> str:
     intent = detect_intent(user_prompt)
+    logger.info(f'Intent {intent} detected from user prompt: {user_prompt}')
     topic, data = list(intent.items())[0]
     if topic == 'genres':
         statement = f"SELECT * FROM genres JOIN movies ON genres.movieId=movies.movieId WHERE genres LIKE '%{data}%'"
@@ -40,5 +44,6 @@ def answer_query(user_prompt: str, model_type: str = best, retry: bool = True) -
     else:
         raise Exception(f'Could not ascertain user intent: {topic} -> {data}')
     movies = query_database(statement)
+    logger.info(f'Fetched {len(movies)} movie(s) from database: {movies}')
     prompt = f'Given these movies: {movies} answer this question: {user_prompt}'
     return call_llm(prompt=prompt, model_type=model_type, retry=retry)
