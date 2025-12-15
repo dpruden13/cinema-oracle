@@ -26,7 +26,7 @@ This API allows a user to query the [MovieLens dataset (small version: ~100k rat
 - `datasets` is the directory holding the files for the MovieLens and TMDB datasets.
 - `requirements.txt` lists the Python libraries used. Note that this project uses Python 3.13.
 - `etl.py` shows the script that was used to extract the data from 5 CSV files (3 from MovieLens, 2 from TMDB), transform that data into the desired tables and columns, and load them into a SQLite database. Now that the SQLite database has been created, this script does not need to be run again. 
-- `sqlite:///database.db` is the SQLite database, which has 3 tables: `movies`, `genres`, and `ratings`. Note that, in the `movies` table, the `cast` column had to be renamed `actors` because `cast` was causing errors in SQL queries.
+- `database.db` is the SQLite database, which has 3 tables: `movies`, `genres`, and `ratings`. Note that, in the `movies` table, the `cast` column had to be renamed `actors` because `cast` was causing errors in SQL queries.
 - `database.py` offers a helper function for querying the SQLite database.
 - `llm.py` provides the essential building blocks for calling any of 3 LLMs (see table below).
 - `query.py` has the main callable in this API (`answer_query()`) and related logic for intent detection for user prompts.
@@ -56,5 +56,5 @@ Note that running all the tests can take several minutes as some of them are cal
 - **Data Coverage:** Because the MovieLens dataset has ~9k movies and the TMDB dataset has ~5k movies, the former is used as the main list of movies with extra fields (such as `overview`, `actors`, and `director`) supplemented by the latter as available. The [IMDb API](https://developer.imdb.com/documentation/api-documentation/getting-access/) or [TMDB API](https://developer.themoviedb.org/docs/getting-started) could be used to fill in the missing gaps. 
 - **Prompt Engineering:** LLM responses could likely be improved by splitting up prompts between the system_prompt and user_prompt instead of using only the latter.
 - **Context Engineering:** To speed up response times and allow more ambitious user prompts accessing more data, Retrieval-Augmented Generation (RAG) could be implemented with a vector database such as Pinecone. 
-- **Hosting an Agent:** To make this API available to AI agents, a Model Context Protocol (MCP) server could be set up and hosted.
+- **Hosting for Agents:** To make this API available to AI agents, a Model Context Protocol (MCP) server could be set up and hosted.
 - **Security:** The data in the MovieLens and TMDB datasets is not sensitive in nature. That said, to become production ready, more coding would need to be done to guard against SQL Injection and Prompt Injection.
