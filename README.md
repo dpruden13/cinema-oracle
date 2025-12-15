@@ -10,8 +10,16 @@ This API allows a user to use natural language to query the [MovieLens dataset (
 4. `fastapi dev main.py`
 5. Use Postman or another client to send GET requests (see screenshots below) to http://127.0.0.1:8000 with the required query parameter `user_prompt` 
 
+##### Sample GET Request about Movie Genre with the Best Model
+
 ![SampleGenreQueryWithBestModel.png](screenshots/SampleGenreQueryWithBestModel.png)
+
+##### Sample GET Request about Movie Director with the Medium Model
+
 ![SampleDirectorQueryWithMediumModel.png](screenshots/SampleDirectorQueryWithMediumModel.png)
+
+##### Sample GET Request about Movie Year with the Basic Model
+
 ![SampleYearQueryWithBasicModel.png](screenshots/SampleYearQueryWithBasicModel.png)
 
 ### Structure:
@@ -36,6 +44,8 @@ This API allows a user to use natural language to query the [MovieLens dataset (
 ### Testing:
 
 `python -m pytest`
+
+##### Example of All Tests Passing
 
 ![AllTestsPassing.png](screenshots/AllTestsPassing.png)
 
