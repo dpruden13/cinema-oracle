@@ -1,13 +1,17 @@
 # Cinema Oracle
 
-This project uses the [MovieLens dataset (small version: ~100k ratings, ~9k movies)](https://grouplens.org/datasets/movielens/) and the [TMDB 5000 Movie Dataset](https://www.kaggle.com/datasets/tmdb/tmdb-movie-metadata). The files from these datasets can be found in the `datasets` directory. 
+This project uses the [MovieLens dataset (small version: ~100k ratings, ~9k movies)](https://grouplens.org/datasets/movielens/) and the [TMDB 5000 Movie Dataset](https://www.kaggle.com/datasets/tmdb/tmdb-movie-metadata).  
 
 ### Structure:
+- `datasets` is the directory holding the files for the MovieLens and TMDB datasets.
 - `requirements.txt` lists the Python libraries used. Note that this project uses Python 3.13.
 - `etl.py` shows the script that was used to extract the data from 5 CSV files (3 from MovieLens, 2 from TMDB), transform that data into the desired tables and columns, and load them into a SQLite database. Now that the SQLite database has been created, this script does not need to be run again. 
-- `sqlite:///database.db` is the SQLite database, which has 3 tables: movies, genres, and ratings
-- `llm.py` provides the essential building blocks for calling any of 3 LLMs (see table below)
+- `sqlite:///database.db` is the SQLite database, which has 3 tables: movies, genres, and ratings.
+- `database.py` offers a helper function for querying the SQLite database.
+- `llm.py` provides the essential building blocks for calling any of 3 LLMs (see table below).
+- `query.py` has the main callable in this API (`answer_query()`) and related logic for intent detection for user prompts.
 - `main.py` contains the logic for the FastAPI API. 
+- `test_database.py`, `test_llm.py`, and `test_query.py` are the tests called via `pytest` (see the Testing section below).
 
 ### Quickstart:
 
