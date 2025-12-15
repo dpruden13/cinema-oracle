@@ -23,6 +23,8 @@ This project uses the [MovieLens dataset (small version: ~100k ratings, ~9k movi
 
 ### Testing:
 
+`python -m pytest`
+
 ### LLMs:
 
 | Model                                                                                             | Via                      | Usage                 | Pros                                                        | Cons                                                                                                                                                                                         |
